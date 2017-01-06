@@ -1,0 +1,29 @@
+
+<!--logs.wxml-->
+<view class="container-fab">
+  <view class="container-device">
+    <block wx:if="{{showLoading}}">
+      <view class="loading">设备刷新中…</view>
+    </block>
+    <block wx:else>
+      <view class="device-list-control mdl-list">
+        <block wx:for="{{devices}}" wx:for-item="deviceItem" wx:for-index="deviceIndex" wx:key="device">
+          <view class="mdl-list__item mdl-list__item--two-line" data-device="{{deviceItem}}" catchtap="viewDeviceDetail">
+            <span class="mdl-list__item-primary-content">
+              <image src="../../images/ic_default_device.png" class="material-icons mdl-list__item-avatar"></image>
+              <span>{{deviceItem.name}}</span> 
+            <span class="mdl-list__item-sub-title">MAC地址 {{deviceItem.mac}}</span> 
+            </span> 
+            <span class="mdl-list__item-secondary-action">
+            <switch class="mdl-switch mdl-switch__input" data-device="{{deviceItem}}" catchtap="triggerSwitch" color="#FA4383" checked="{{deviceItem.status}}"/>
+          </span> 
+          </view>
+        </block>
+      </view>
+    </block>
+  </view>
+
+  <!--<button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored fab">
+    <image src="../../images/ic_add_white_24dp.png" class="mdl-button material-icons"></image>
+  </button>-->
+</view>

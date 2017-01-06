@@ -1,0 +1,20 @@
+
+<!--index.wxml-->
+<view class="container">
+  <view class="userinfo">
+    <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+  </view>
+  <view class="userinput">
+    <view class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+      <input class="mdl-textfield__input" placeholder="用户名" bindinput="bindUsernameInput" value="{{mUsername}}" />
+    </view>
+    <view class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+      <input class="mdl-textfield__input" placeholder="密码" password type="text" bindinput="bindPasswordInput" value="{{mPassword}}" />
+    </view>
+  </view>
+  <view>
+    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent button-login" bindtap="login">
+      登录
+    </button>
+  </view>
+</view>
