@@ -11,7 +11,7 @@
           <view class="mdl-list__item mdl-list__item--two-line" data-device="{{deviceItem}}" catchtap="viewDeviceDetail">
             <span class="mdl-list__item-primary-content">
               <image src="../../images/ic_default_device.png" class="material-icons mdl-list__item-avatar"></image>
-              <span>{{deviceItem.name}}</span> 
+              <span>{{deviceItem.name}}</span>
             <span class="mdl-list__item-sub-title">MAC地址 {{deviceItem.mac}}</span> 
             </span> 
             <span class="mdl-list__item-secondary-action">

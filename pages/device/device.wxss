@@ -13,5 +13,5 @@
 
 .fab {
   align-self: flex-end;
-  align-items: baseline
+  align-items: baseline;
 }

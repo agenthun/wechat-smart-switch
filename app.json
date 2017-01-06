@@ -1,12 +1,12 @@
 {
-  "pages":[
+  "pages": [
     "pages/index/index",
     "pages/device/device"
   ],
-  "window":{
-    "backgroundTextStyle":"light",
+  "window": {
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#746EC4",
     "navigationBarTitleText": "智能插座",
-    "navigationBarTextStyle":"white"
+    "navigationBarTextStyle": "white"
   }
 }

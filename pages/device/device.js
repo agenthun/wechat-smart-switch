@@ -29,8 +29,6 @@ Page({
     var that = this
     var device = e.currentTarget.dataset.device;
     console.log('viewDeviceDetail() ', device.mac)
-
-    bull.updateDeviceObservable(that.data.sid, device)
   },
   onPullDownRefresh: function () {
     var that = this

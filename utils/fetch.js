@@ -23,6 +23,63 @@ var CODE_CONFIG_CLOSE = "0001FFFF1001FFFF2001FFFF3001FFFF"
 var CODE_CONFIG_OPEN = "0002FFFF1002FFFF2002FFFF3002FFFF"
 
 // 获取设备列表
+function login(username, password) {
+  var that = this
+  wx.request({
+    url: 'http://www.gn-smart.cn/usvc/',
+    data: {
+      SID: 0,
+      NM: 'LoginReq',
+      clientName: 'GT-P3100',
+      userName: username,
+      SN: 13,
+      mac: '352123052298',
+      agingTime: 86400000,
+      password: password,
+      timeout: 5000,
+      clientId: 'F0002C0004',
+      CID: 10011
+    },
+    method: 'POST', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
+    header: {
+      'content-type': 'application/json',
+      'accept': 'application/json'
+    }, // 设置请求的 header
+    success: function (res) {
+      // success
+      console.log(res.data)
+      if (res.data.result == 1) {
+        wx.setStorage({
+          key: 'sid',
+          data: res.data.SID.toString(),
+          success: function (res) {
+            console.log("save sid success: " + res)
+          },
+          complete: function () {
+            console.log("jump device")
+            wx.navigateTo({
+              url: '../device/device'
+            })
+          }
+        })
+      } else {
+        wx.showToast({
+          title: res.data.reason,
+          duration: 2000
+        })
+      }
+    },
+    fail: function () {
+      console.log('登录失败')
+      wx.showToast({
+        title: '网络故障',
+        duration: 2000
+      })
+    }
+  })
+}
+
+// 获取设备列表
 function fetchDevices(sid) {
   var that = this
   if (that.data.hasMore) {
@@ -54,19 +111,12 @@ function fetchDevices(sid) {
               })
             } else {
               for (var i = 0; i < devices.length; i++) {
-                console.log("device name: " + devices[i].name + ", mac: " + devices[i].mac)
-                devices[i].status = false
-                // updateDeviceObservable(that, sid, devices[i])
+                updateDeviceObservable(that, sid, devices[i])
               }
-              that.setData({
-                devices: that.data.devices.concat(devices),
-                showLoading: false
-              })
               console.log("total device size: " + that.data.devices.length)
             }
           }
         }
-        wx.stopPullDownRefresh()
       },
       fail: function () {
         console.log('网络开小差了')
@@ -77,6 +127,11 @@ function fetchDevices(sid) {
           title: '网络开小差了',
           icon: 'offline',
           duration: 2000
+        })
+      },
+      complete: function () {
+        that.setData({
+          showLoading: false
         })
         wx.stopPullDownRefresh()
       }
@@ -135,8 +190,8 @@ function toggleDevice(sid, mac, status) {
 }
 
 // 更新设备状态
-function updateDeviceObservable(sid, device) {
-  var that = this
+function updateDeviceObservable(self, sid, device) {
+  var that = self
   var input = {}
   input[device.mac] = CMD_GET_STATUS
 
@@ -177,27 +232,19 @@ function updateDeviceObservable(sid, device) {
           ", mac: " + device.mac +
           ", status: " + device.status)
 
-        // that.setData({
-        //   devices: that.data.devices.concat(device),
-        //   showLoading: false
-        // })
+        that.setData({
+          devices: that.data.devices.concat(device),
+        })
       }
     },
     fail: function () {
       console.log('网络开小差了')
-      // that.setData({
-      //   showLoading: false
-      // })
-      // wx.showToast({
-      //   title: '网络开小差了',
-      //   icon: 'offline',
-      //   duration: 2000
-      // })
     }
   })
 }
 
 module.exports = {
+  login: login,
   fetchDevices: fetchDevices,
   operateDevice: operateDevice,
   toggleDevice: toggleDevice,
